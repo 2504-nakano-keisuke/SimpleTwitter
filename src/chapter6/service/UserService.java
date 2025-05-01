@@ -63,7 +63,7 @@ public class UserService {
     public User select(String accountOrEmail, String password) {
 
   	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-          " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
           Connection connection = null;
           try {
@@ -95,7 +95,7 @@ public class UserService {
 
         Connection connection = null;
         try {
-        	if(!StringUtils.isEmpty(user.getPassword())) {
+        	if (!StringUtils.isBlank(user.getPassword())) {
         		// パスワード暗号化
 	            String encPassword = CipherUtil.encrypt(user.getPassword());
 	            user.setPassword(encPassword);
@@ -121,7 +121,7 @@ public class UserService {
 
 
         log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+          " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
         Connection connection = null;
         try {
