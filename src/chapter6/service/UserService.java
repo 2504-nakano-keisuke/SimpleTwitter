@@ -91,7 +91,7 @@ public class UserService {
     public void update(User user) {
 
         log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+          " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
         Connection connection = null;
         try {

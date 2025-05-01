@@ -41,7 +41,8 @@ public class SettingServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		log.info(new Object() {}.getClass().getEnclosingClass().getName() +	" : " + new Object() {}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		  " : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		HttpSession session = request.getSession();
 		User loginUser = (User) session.getAttribute("loginUser");
@@ -56,7 +57,8 @@ public class SettingServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		log.info(new Object() {}.getClass().getEnclosingClass().getName() + " : " + new Object() {}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		  " : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		HttpSession session = request.getSession();
 		List<String> errorMessages = new ArrayList<String>();
