@@ -119,8 +119,8 @@ public class SettingServlet extends HttpServlet {
 		if (!StringUtils.isBlank(email) && (50 < email.length())) {
 			errorMessages.add("メールアドレスは50文字以下で入力してください");
 		}
-		User originUser = new UserService().select(account);
-		if ((originUser != null) && (user.getId() != originUser.getId())) {
+		User duplicationUser = new UserService().select(account);
+		if ((duplicationUser != null) && (user.getId() != duplicationUser.getId())) {
 			errorMessages.add("ユーザーが重複しています");
 		}
 
