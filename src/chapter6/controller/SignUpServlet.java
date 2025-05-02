@@ -107,7 +107,8 @@ public class SignUpServlet extends HttpServlet {
 			errorMessages.add("メールアドレスは50文字以下で入力してください");
 		}
 
-		if (new UserService().select(account) != null) {
+		User originUser = new UserService().select(account);
+		if (originUser != null) {
 			errorMessages.add("ユーザーが重複しています");
 		}
 
