@@ -55,6 +55,7 @@ public class SignUpServlet extends HttpServlet {
 		List<String> errorMessages = new ArrayList<String>();
 
 		User user = getUser(request);
+
 		if (!isValid(user, errorMessages)) {
 			request.setAttribute("errorMessages", errorMessages);
 			request.getRequestDispatcher("signup.jsp").forward(request, response);
@@ -88,22 +89,26 @@ public class SignUpServlet extends HttpServlet {
 		String password = user.getPassword();
 		String email = user.getEmail();
 
-		if (!StringUtils.isEmpty(name) && (20 < name.length())) {
+		if (!StringUtils.isBlank(name) && (20 < name.length())) {
 			errorMessages.add("名前は20文字以下で入力してください");
 		}
 
-		if (StringUtils.isEmpty(account)) {
+		if (StringUtils.isBlank(account)) {
 			errorMessages.add("アカウント名を入力してください");
 		} else if (20 < account.length()) {
 			errorMessages.add("アカウント名は20文字以下で入力してください");
 		}
 
-		if (StringUtils.isEmpty(password)) {
+		if (StringUtils.isBlank(password)) {
 			errorMessages.add("パスワードを入力してください");
 		}
 
-		if (!StringUtils.isEmpty(email) && (50 < email.length())) {
+		if (!StringUtils.isBlank(email) && (50 < email.length())) {
 			errorMessages.add("メールアドレスは50文字以下で入力してください");
+		}
+
+		if (new UserService().select(account) != null) {
+			errorMessages.add("ユーザーが重複しています");
 		}
 
 		if (errorMessages.size() != 0) {
@@ -111,4 +116,5 @@ public class SignUpServlet extends HttpServlet {
 		}
 		return true;
 	}
+
 }
