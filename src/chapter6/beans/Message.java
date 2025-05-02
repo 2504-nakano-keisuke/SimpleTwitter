@@ -5,51 +5,51 @@ import java.util.Date;
 
 public class Message implements Serializable {
 
-    private int id;
-    private int userId;
-    private String text;
-    private Date createdDate;
-    private Date updatedDate;
+	private int id;
+	private int userId;
+	private String text;
+	private Date createdDate;
+	private Date updatedDate;
 
-    // getter/setterは省略されているので、自分で記述しましょう。
+	// getter/setterは省略されているので、自分で記述しましょう。
 
-    public int getId() {
-        return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public int getUserId() {
-        return userId;
-    }
+	public int getUserId() {
+		return userId;
+	}
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 
-    public String getText() {
-        return text;
-    }
+	public String getText() {
+		return text;
+	}
 
-    public void setText(String text) {
-        this.text = text;
-    }
+	public void setText(String text) {
+		this.text = text;
+	}
 
-    public Date getCreatedDate() {
-        return createdDate;
-    }
+	public Date getCreatedDate() {
+		return createdDate;
+	}
 
-    public void setCreatedDate(Date cDate ) {
-        this.createdDate = cDate;
-    }
+	public void setCreatedDate(Date cDate) {
+		this.createdDate = cDate;
+	}
 
-    public Date getUpdatedDate() {
-        return updatedDate;
-    }
+	public Date getUpdatedDate() {
+		return updatedDate;
+	}
 
-    public void setUpdatedDate(Date uDate) {
-        this.updatedDate = uDate;
-    }
+	public void setUpdatedDate(Date uDate) {
+		this.updatedDate = uDate;
+	}
 }

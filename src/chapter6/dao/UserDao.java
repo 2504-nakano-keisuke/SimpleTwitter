@@ -37,8 +37,8 @@ public class UserDao {
 
 	public void insert(Connection connection, User user) {
 
-		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-		  " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
+			" : " + new Object() { }.getClass().getEnclosingMethod().getName());
 
 		PreparedStatement ps = null;
 		try {
@@ -71,8 +71,7 @@ public class UserDao {
 
 			ps.executeUpdate();
 		} catch (SQLException e) {
-			log.log(Level.SEVERE, new Object() {
-			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			log.log(Level.SEVERE, new Object() { }.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
 			throw new SQLRuntimeException(e);
 		} finally {
 			close(ps);
@@ -81,8 +80,8 @@ public class UserDao {
 
 	public User select(Connection connection, String accountOrEmail, String password) {
 
-		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-		  " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
+			" : " + new Object() { }.getClass().getEnclosingMethod().getName());
 
 		PreparedStatement ps = null;
 		try {
@@ -117,8 +116,8 @@ public class UserDao {
 
 	private List<User> toUsers(ResultSet rs) throws SQLException {
 
-		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-		  " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
+			" : " + new Object() { }.getClass().getEnclosingMethod().getName());
 
 		List<User> users = new ArrayList<User>();
 		try {
@@ -143,8 +142,8 @@ public class UserDao {
 
 	public void update(Connection connection, User user) {
 
-		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-		  " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
+			" : " + new Object() { }.getClass().getEnclosingMethod().getName());
 
 		PreparedStatement ps = null;
 		try {
@@ -160,7 +159,6 @@ public class UserDao {
 			sql.append("    updated_date = CURRENT_TIMESTAMP ");
 			sql.append("WHERE id = ?");
 
-
 			ps = connection.prepareStatement(sql.toString());
 
 			ps.setString(1, user.getAccount());
@@ -174,9 +172,6 @@ public class UserDao {
 				ps.setString(5, user.getDescription());
 				ps.setInt(6, user.getId());
 			}
-
-
-
 
 			int count = ps.executeUpdate();
 			if (count == 0) {
@@ -194,8 +189,8 @@ public class UserDao {
 
 	public User select(Connection connection, int id) {
 
-		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-		  " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
+			" : " + new Object() { }.getClass().getEnclosingMethod().getName());
 
 		PreparedStatement ps = null;
 		try {
@@ -217,8 +212,7 @@ public class UserDao {
 				return users.get(0);
 			}
 		} catch (SQLException e) {
-			log.log(Level.SEVERE, new Object() {
-			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			log.log(Level.SEVERE, new Object() { }.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
 			throw new SQLRuntimeException(e);
 		} finally {
 			close(ps);
