@@ -21,6 +21,10 @@ public class Message implements Serializable {
 		this.id = id;
 	}
 
+	public void setId(String id) {
+		this.id = Integer.parseInt(id);
+	}
+
 	public int getUserId() {
 		return userId;
 	}
