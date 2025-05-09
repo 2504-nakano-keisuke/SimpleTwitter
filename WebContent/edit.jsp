@@ -44,7 +44,7 @@
 	<form action="edit" method="post">
 		<input type="hidden" name="id" value="${message.id}">
 		つぶやき<br />
-		<textarea name="text" cols="100" rows="5" class="tweet-box"><c:out value="${text}" /></textarea>
+		<textarea name="text" cols="100" rows="5" class="tweet-box"><c:out value="${message.text}" /></textarea>
 		<br /> <input type="submit" value="更新">（140文字まで）
 	</form>
 	<a href="./">戻る</a>

@@ -68,15 +68,15 @@ public class User implements Serializable {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Date cDate) {
-		this.createdDate = cDate;
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 
 	public Date getUpdatedDate() {
 		return updatedDate;
 	}
 
-	public void setUpdatedDate(Date uDate) {
-		this.updatedDate = uDate;
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
 	}
 }

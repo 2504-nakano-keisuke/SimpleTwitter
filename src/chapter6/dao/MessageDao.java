@@ -91,7 +91,7 @@ public class MessageDao {
 		}
 	}
 
-	public void edit(Connection connection, Message message) {
+	public void update(Connection connection, Message message) {
 
 		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
 			" : " + new Object() { }.getClass().getEnclosingMethod().getName());
@@ -117,7 +117,7 @@ public class MessageDao {
 		}
 	}
 
-	public Message getMessage(Connection connection, String id) {
+	public Message select(Connection connection, String id) {
 
 		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
 			" : " + new Object() { }.getClass().getEnclosingMethod().getName());

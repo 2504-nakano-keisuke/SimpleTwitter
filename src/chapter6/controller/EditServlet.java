@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
@@ -46,16 +45,16 @@ public class EditServlet extends HttpServlet {
 
 		String id = request.getParameter("id");
 
-		Pattern p1 = Pattern.compile("^[0-9]+$"); // 正規表現パターンの読み込み
-	    Matcher m1 = p1.matcher(id); // パターンと検査対象文字列の照合
-	    boolean result = m1.matches(); // 照合結果をtrueまたはfalseで取得する
-
 	    HttpSession session = request.getSession();
 		List<String> errorMessages = new ArrayList<String>();
 
-		Message message = new MessageService().getMessage(id);
+		Message message = null;
 
-		if (!result || message == null) {
+		if (!StringUtils.isBlank(id) && Pattern.compile("^[0-9]+$").matcher(id).matches()) {
+			message = new MessageService().selectMessage(id);
+		}
+
+		if (message == null) {
 			errorMessages.add("不正なパラメータが入力されました");
 	    	session.setAttribute("errorMessages", errorMessages);
 			response.sendRedirect("./");
@@ -63,7 +62,6 @@ public class EditServlet extends HttpServlet {
 		}
 
 		request.setAttribute("message", message);
-		request.setAttribute("text", message.getText());
 		request.getRequestDispatcher("/edit.jsp").forward(request, response);
 	}
 	@Override
@@ -74,26 +72,28 @@ public class EditServlet extends HttpServlet {
 			" : " + new Object() { }.getClass().getEnclosingMethod().getName());
 
 		List<String> errorMessages = new ArrayList<String>();
+
 		String id = request.getParameter("id");
 		String text = request.getParameter("text");
 
-		if (!isValid(text, errorMessages,id)) {
+		Message message = new Message();
+		message.setId(Integer.valueOf(id));
+		message.setText(text);
+
+		if (!isValid(text, errorMessages)) {
 			request.setAttribute("errorMessages", errorMessages);
-			request.setAttribute("text", text);
+			request.setAttribute("message", message);
 			request.getRequestDispatcher("edit.jsp").forward(request, response);
 			return;
 		}
 
-		Message message = new Message();
-		message.setText(text);
+		message.setId(Integer.valueOf(id));
 
-		message.setId(id);
-
-		new MessageService().edit(message);
+		new MessageService().update(message);
 		response.sendRedirect("./");
 	}
 
-	private boolean isValid(String text, List<String> errorMessages, String id) {
+	private boolean isValid(String text, List<String> errorMessages) {
 
 		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
 			" : " + new Object() { }.getClass().getEnclosingMethod().getName());

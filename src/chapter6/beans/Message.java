@@ -21,10 +21,6 @@ public class Message implements Serializable {
 		this.id = id;
 	}
 
-	public void setId(String id) {
-		this.id = Integer.parseInt(id);
-	}
-
 	public int getUserId() {
 		return userId;
 	}
@@ -45,15 +41,15 @@ public class Message implements Serializable {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Date cDate) {
-		this.createdDate = cDate;
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 
 	public Date getUpdatedDate() {
 		return updatedDate;
 	}
 
-	public void setUpdatedDate(Date uDate) {
-		this.updatedDate = uDate;
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
 	}
 }
