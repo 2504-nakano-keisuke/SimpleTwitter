@@ -40,12 +40,14 @@ public class EditServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 
-		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
-			" : " + new Object() { }.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		String id = request.getParameter("id");
 
-	    HttpSession session = request.getSession();
+		HttpSession session = request.getSession();
 		List<String> errorMessages = new ArrayList<String>();
 
 		Message message = null;
@@ -56,7 +58,7 @@ public class EditServlet extends HttpServlet {
 
 		if (message == null) {
 			errorMessages.add("不正なパラメータが入力されました");
-	    	session.setAttribute("errorMessages", errorMessages);
+			session.setAttribute("errorMessages", errorMessages);
 			response.sendRedirect("./");
 			return;
 		}
@@ -64,12 +66,15 @@ public class EditServlet extends HttpServlet {
 		request.setAttribute("message", message);
 		request.getRequestDispatcher("/edit.jsp").forward(request, response);
 	}
+
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 
-		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
-			" : " + new Object() { }.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		List<String> errorMessages = new ArrayList<String>();
 
@@ -87,16 +92,16 @@ public class EditServlet extends HttpServlet {
 			return;
 		}
 
-		message.setId(Integer.valueOf(id));
-
 		new MessageService().update(message);
 		response.sendRedirect("./");
 	}
 
 	private boolean isValid(String text, List<String> errorMessages) {
 
-		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
-			" : " + new Object() { }.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		if (StringUtils.isBlank(text)) {
 			errorMessages.add("メッセージを入力してください");
