@@ -35,6 +35,7 @@ public class MessageService {
 
 	}
 
+	//つぶやきの追加
 	public void insert(Message message) {
 
 		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
@@ -60,6 +61,7 @@ public class MessageService {
 		}
 	}
 
+	//つぶやきの表示 user_idの検索、created_dateの時刻検索に使用
 	public List<UserMessage> select(String userId, String start, String end) {
 
 		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
@@ -117,41 +119,6 @@ public class MessageService {
 		}
 	}
 
-	public List<UserMessage> select(String start, String end) {
-
-		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
-			" : " + new Object() { }.getClass().getEnclosingMethod().getName());
-
-		Connection connection = null;
-
-		if (StringUtils.isBlank(start)) {
-			start = "NOW()";
-		}
-		if (StringUtils.isBlank(end)) {
-			start = "NOW()";
-		}
-
-		try {
-			connection = getConnection();
-			List<UserMessage> messages = new UserMessageDao().select(connection, start, end);
-			commit(connection);
-
-			return messages;
-		} catch (RuntimeException e) {
-			rollback(connection);
-			log.log(Level.SEVERE, new Object() {
-			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
-			throw e;
-		} catch (Error e) {
-			rollback(connection);
-			log.log(Level.SEVERE, new Object() {
-			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
-			throw e;
-		} finally {
-			close(connection);
-		}
-	}
-
 	public void delete(String id) {
 
 		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
@@ -177,6 +144,7 @@ public class MessageService {
 		}
 	}
 
+	//つぶやきの編集に使用
 	public void update(Message message) {
 
 		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
@@ -202,6 +170,7 @@ public class MessageService {
 		}
 	}
 
+	//message_idからつぶやきの検索をする際に使用
 	public Message selectMessage(String id) {
 
 		log.info(new Object() { }.getClass().getEnclosingClass().getName() +

@@ -32,6 +32,7 @@ public class UserCommentDao {
 
 	}
 
+	//返信コメントにアカウント名と名前の情報ををつけて取得
 	public List<UserComment> select(Connection connection) {
 
 		log.info(new Object() { }.getClass().getEnclosingClass().getName() +

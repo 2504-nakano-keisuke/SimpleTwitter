@@ -31,6 +31,7 @@ public class CommentService {
 
 	}
 
+	//返信コメントの追加
 	public void insert(Comment comment) {
 
 		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
@@ -56,6 +57,7 @@ public class CommentService {
 		}
 	}
 
+	//返信コメントの取得
 	public List<UserComment> select() {
 
 		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
@@ -68,56 +70,6 @@ public class CommentService {
 			List<UserComment> comments = new UserCommentDao().select(connection);
 			commit(connection);
 			return comments;
-		} catch (RuntimeException e) {
-			rollback(connection);
-			log.log(Level.SEVERE, new Object() {
-			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
-			throw e;
-		} catch (Error e) {
-			rollback(connection);
-			log.log(Level.SEVERE, new Object() {
-			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
-			throw e;
-		} finally {
-			close(connection);
-		}
-	}
-
-	public void delete(String id) {
-
-		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
-			" : " + new Object() { }.getClass().getEnclosingMethod().getName());
-
-		Connection connection = null;
-		try {
-			connection = getConnection();
-			new CommentDao().delete(connection, id);
-			commit(connection);
-		} catch (RuntimeException e) {
-			rollback(connection);
-			log.log(Level.SEVERE, new Object() {
-			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
-			throw e;
-		} catch (Error e) {
-			rollback(connection);
-			log.log(Level.SEVERE, new Object() {
-			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
-			throw e;
-		} finally {
-			close(connection);
-		}
-	}
-
-	public void update(Comment comment) {
-
-		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
-			" : " + new Object() { }.getClass().getEnclosingMethod().getName());
-
-		Connection connection = null;
-		try {
-			connection = getConnection();
-			new CommentDao().update(connection, comment);
-			commit(connection);
 		} catch (RuntimeException e) {
 			rollback(connection);
 			log.log(Level.SEVERE, new Object() {

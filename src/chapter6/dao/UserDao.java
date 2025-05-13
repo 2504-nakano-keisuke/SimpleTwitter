@@ -35,10 +35,11 @@ public class UserDao {
 
 	}
 
+	//ユーザーの追加
 	public void insert(Connection connection, User user) {
 
-		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
-			" : " + new Object() { }.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+			" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		PreparedStatement ps = null;
 		try {
@@ -71,17 +72,19 @@ public class UserDao {
 
 			ps.executeUpdate();
 		} catch (SQLException e) {
-			log.log(Level.SEVERE, new Object() { }.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
 			throw new SQLRuntimeException(e);
 		} finally {
 			close(ps);
 		}
 	}
 
+	//ユーザーの取得（アカウント名かE-mailとパスワードで検索）
 	public User select(Connection connection, String accountOrEmail, String password) {
 
-		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
-			" : " + new Object() { }.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+			" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		PreparedStatement ps = null;
 		try {
@@ -114,37 +117,71 @@ public class UserDao {
 		}
 	}
 
-
+	//ユーザーの取得（アカウント名で検索）
 	public User select(Connection connection, String account) {
 
-	    PreparedStatement ps = null;
-	    try {
-	        String sql = "SELECT * FROM users WHERE account = ?";
+		PreparedStatement ps = null;
+		try {
+			String sql = "SELECT * FROM users WHERE account = ?";
 
-	        ps = connection.prepareStatement(sql);
-	        ps.setString(1, account);
+			ps = connection.prepareStatement(sql);
+			ps.setString(1, account);
 
-	        ResultSet rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 
-	        List<User> users = toUsers(rs);
-	        if (users.isEmpty()) {
-	            return null;
-	        } else if (2 <= users.size()) {
-	            throw new IllegalStateException("ユーザーが重複しています");
-	        } else {
-	            return users.get(0);
-	        }
-	    } catch (SQLException e) {
-	        throw new SQLRuntimeException(e);
-	    } finally {
-	        close(ps);
-	    }
+			List<User> users = toUsers(rs);
+			if (users.isEmpty()) {
+				return null;
+			} else if (2 <= users.size()) {
+				throw new IllegalStateException("ユーザーが重複しています");
+			} else {
+				return users.get(0);
+			}
+		} catch (SQLException e) {
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+	}
+
+	//ユーザーの取得（usersのidを用いて検索）
+	public User select(Connection connection, int id) {
+
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+			" : " + new Object() {}.getClass().getEnclosingMethod().getName());
+
+		PreparedStatement ps = null;
+		try {
+			String sql = "SELECT * FROM users WHERE id = ?";
+
+			ps = connection.prepareStatement(sql);
+
+			ps.setInt(1, id);
+
+			ResultSet rs = ps.executeQuery();
+
+			List<User> users = toUsers(rs);
+			if (users.isEmpty()) {
+				return null;
+			} else if (2 <= users.size()) {
+				log.log(Level.SEVERE, "ユーザーが重複しています", new IllegalStateException());
+				throw new IllegalStateException("ユーザーが重複しています");
+			} else {
+				return users.get(0);
+			}
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
 	}
 
 	private List<User> toUsers(ResultSet rs) throws SQLException {
 
-		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
-			" : " + new Object() { }.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+			" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		List<User> users = new ArrayList<User>();
 		try {
@@ -167,10 +204,11 @@ public class UserDao {
 		}
 	}
 
+	//アカウント情報の更新
 	public void update(Connection connection, User user) {
 
-		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
-			" : " + new Object() { }.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+			" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		PreparedStatement ps = null;
 		try {
@@ -213,37 +251,4 @@ public class UserDao {
 			close(ps);
 		}
 	}
-
-	public User select(Connection connection, int id) {
-
-		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
-			" : " + new Object() { }.getClass().getEnclosingMethod().getName());
-
-		PreparedStatement ps = null;
-		try {
-			String sql = "SELECT * FROM users WHERE id = ?";
-
-			ps = connection.prepareStatement(sql);
-
-			ps.setInt(1, id);
-
-			ResultSet rs = ps.executeQuery();
-
-			List<User> users = toUsers(rs);
-			if (users.isEmpty()) {
-				return null;
-			} else if (2 <= users.size()) {
-				log.log(Level.SEVERE, "ユーザーが重複しています", new IllegalStateException());
-				throw new IllegalStateException("ユーザーが重複しています");
-			} else {
-				return users.get(0);
-			}
-		} catch (SQLException e) {
-			log.log(Level.SEVERE, new Object() { }.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
-			throw new SQLRuntimeException(e);
-		} finally {
-			close(ps);
-		}
-	}
-
 }

@@ -32,6 +32,7 @@ public class MessageDao {
 
 	}
 
+	//つぶやきの追加
 	public void insert(Connection connection, Message message) {
 
 		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
@@ -67,6 +68,7 @@ public class MessageDao {
 	}
 
 
+	//つぶやきの削除
 	public void delete(Connection connection, String id) {
 
 		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
@@ -91,6 +93,7 @@ public class MessageDao {
 		}
 	}
 
+	//つぶやきの編集
 	public void update(Connection connection, Message message) {
 
 		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
@@ -118,6 +121,7 @@ public class MessageDao {
 		}
 	}
 
+	//message_idからつぶやきの検索して取得
 	public Message select(Connection connection, String id) {
 
 		log.info(new Object() { }.getClass().getEnclosingClass().getName() +

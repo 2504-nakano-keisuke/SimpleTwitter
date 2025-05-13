@@ -121,7 +121,7 @@ public class SettingServlet extends HttpServlet {
 		}
 		User duplicationUser = new UserService().select(account);
 		if ((duplicationUser != null) && (user.getId() != duplicationUser.getId())) {
-			errorMessages.add("ユーザーが重複しています");
+			errorMessages.add("すでに存在するアカウントです");
 		}
 
 		if (errorMessages.size() != 0) {

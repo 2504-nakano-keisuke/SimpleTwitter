@@ -32,6 +32,7 @@ public class UserMessageDao {
 
 	}
 
+	//メッセージの表示に使用 user_id、created_dateで検索可能
 	public List<UserMessage> select(Connection connection, Integer userId, String start, String end, int num) {
 
 		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
@@ -78,35 +79,6 @@ public class UserMessageDao {
 		}
 	}
 
-	public List<UserMessage> select(Connection connection, String start, String end) {
-
-		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
-			" : " + new Object() { }.getClass().getEnclosingMethod().getName());
-
-		PreparedStatement ps = null;
-		try {
-			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT * FROM messages ");
-			sql.append("WHERE created_date between ");  //日付の絞り込み
-			sql.append("? and ? ;");
-
-			ps = connection.prepareStatement(sql.toString());
-
-			ps.setString(1, start);
-			ps.setString(2, end);
-
-			ResultSet rs = ps.executeQuery();
-
-			List<UserMessage> messages = toUserMessages(rs);
-			return messages;
-		} catch (SQLException e) {
-			log.log(Level.SEVERE, new Object() {
-			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
-			throw new SQLRuntimeException(e);
-		} finally {
-			close(ps);
-		}
-	}
 
 	private List<UserMessage> toUserMessages(ResultSet rs) throws SQLException {
 
