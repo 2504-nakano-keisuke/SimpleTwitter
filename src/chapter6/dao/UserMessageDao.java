@@ -32,7 +32,7 @@ public class UserMessageDao {
 
 	}
 
-	public List<UserMessage> select(Connection connection, Integer userId, int num) {
+	public List<UserMessage> select(Connection connection, Integer userId, String start, String end, int num) {
 
 		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
 			" : " + new Object() { }.getClass().getEnclosingMethod().getName());
@@ -46,20 +46,54 @@ public class UserMessageDao {
 			sql.append("    messages.user_id as user_id, ");
 			sql.append("    users.account as account, ");
 			sql.append("    users.name as name, ");
-			sql.append("    messages.created_date as created_date ");
+			sql.append("    messages.created_date as created_date, ");
+			sql.append("    messages.updated_date as updated_date ");
 			sql.append("FROM messages ");
 			sql.append("INNER JOIN users ");
 			sql.append("ON messages.user_id = users.id ");
+			sql.append("WHERE messages.created_date between ? and ? ");
 			if (userId != null) {
-				sql.append("WHERE user_id = ? ");
+				sql.append("AND user_id = ? ");
 			}
-			sql.append("ORDER BY created_date DESC limit " + num);
+			sql.append("ORDER BY created_date DESC limit " + num+ ";");
 
 			ps = connection.prepareStatement(sql.toString());
 
+			ps.setString(1, start);
+			ps.setString(2, end);
 			if (userId != null) {
-				ps.setInt(1, userId);
+				ps.setInt(3, userId);
 			}
+
+			ResultSet rs = ps.executeQuery();
+
+			List<UserMessage> messages = toUserMessages(rs);
+			return messages;
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+	}
+
+	public List<UserMessage> select(Connection connection, String start, String end) {
+
+		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
+			" : " + new Object() { }.getClass().getEnclosingMethod().getName());
+
+		PreparedStatement ps = null;
+		try {
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT * FROM messages ");
+			sql.append("WHERE created_date between ");  //日付の絞り込み
+			sql.append("? and ? ;");
+
+			ps = connection.prepareStatement(sql.toString());
+
+			ps.setString(1, start);
+			ps.setString(2, end);
 
 			ResultSet rs = ps.executeQuery();
 
@@ -89,6 +123,7 @@ public class UserMessageDao {
 				message.setAccount(rs.getString("account"));
 				message.setName(rs.getString("name"));
 				message.setCreatedDate(rs.getTimestamp("created_date"));
+				message.setUpdatedDate(rs.getTimestamp("updated_date"));
 
 				messages.add(message);
 			}

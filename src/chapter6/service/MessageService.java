@@ -4,6 +4,8 @@ import static chapter6.utils.CloseableUtil.*;
 import static chapter6.utils.DBUtil.*;
 
 import java.sql.Connection;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,7 +60,7 @@ public class MessageService {
 		}
 	}
 
-	public List<UserMessage> select(String userId) {
+	public List<UserMessage> select(String userId, String start, String end) {
 
 		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
 			" : " + new Object() { }.getClass().getEnclosingMethod().getName());
@@ -77,6 +79,18 @@ public class MessageService {
 			id = Integer.parseInt(userId);
 		}
 
+		if (start == null || start.isEmpty()) {
+			start = "2020-01-01 00:00:00";
+		} else {
+			start += " 00:00:00";
+		}
+		if (end == null || end.isEmpty()) {
+			Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+			end = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(currentTimestamp);
+		} else {
+			end += " 23:59:59";
+		}
+
 		try {
 			connection = getConnection();
 			/*
@@ -84,7 +98,42 @@ public class MessageService {
 			 * idがnullだったら全件取得する
 			 * idがnull以外だったら、その値に対応するユーザーIDの投稿を取得する
 			 */
-			List<UserMessage> messages = new UserMessageDao().select(connection, id, LIMIT_NUM);
+			List<UserMessage> messages = new UserMessageDao().select(connection, id, start, end, LIMIT_NUM);
+			commit(connection);
+
+			return messages;
+		} catch (RuntimeException e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} catch (Error e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} finally {
+			close(connection);
+		}
+	}
+
+	public List<UserMessage> select(String start, String end) {
+
+		log.info(new Object() { }.getClass().getEnclosingClass().getName() +
+			" : " + new Object() { }.getClass().getEnclosingMethod().getName());
+
+		Connection connection = null;
+
+		if (StringUtils.isBlank(start)) {
+			start = "NOW()";
+		}
+		if (StringUtils.isBlank(end)) {
+			start = "NOW()";
+		}
+
+		try {
+			connection = getConnection();
+			List<UserMessage> messages = new UserMessageDao().select(connection, start, end);
 			commit(connection);
 
 			return messages;
